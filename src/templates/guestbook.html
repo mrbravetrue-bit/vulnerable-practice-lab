@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Guestbook Lab :: {{ mode }}{% endblock %}
+{% block content %}
+<h1>&gt; guestbook_lab.sh --mode={{ mode }}</h1>
+
+{% if mode == 'vulnerable' %}
+<div class="warning">
+  ⚠️ VULNERABLE MODE — messages are rendered as raw HTML (output escaping disabled),
+  so injected <code>&lt;script&gt;</code> tags will execute. Local lab use only.
+</div>
+{% else %}
+<div class="ok-badge">
+  ✅ SECURE MODE — messages are rendered with the template engine's default
+  auto-escaping, so HTML/JS in a message is displayed as text, not executed.
+</div>
+{% endif %}
+
+<div class="panel">
+  <form method="POST">
+    <label>Your name</label>
+    <input type="text" name="author" autocomplete="off" placeholder="e.g. visitor3">
+    <label>Message</label>
+    <textarea name="message" rows="3" placeholder="try: &lt;script&gt;alert('xss')&lt;/script&gt;"></textarea>
+    <button type="submit">Post message</button>
+  </form>
+</div>
+
+<ul class="card-list">
+  {% for entry in entries %}
+    <li>
+      <span class="author">{{ entry.author }}</span>
+      {% if mode == 'vulnerable' %}
+        {{ entry.message|safe }}
+      {% else %}
+        {{ entry.message }}
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+
+<a class="nav-link" href="{{ url_for('home') }}">← back to labs</a>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Vulnerable Practice Lab{% endblock %}
+{% block content %}
+<h1>&gt; select_lab.sh</h1>
+<p style="color:var(--dim); font-size:13px;">
+Each lab has a <strong style="color:var(--red)">vulnerable</strong> version and a
+<strong style="color:var(--green)">secure</strong> version, built the exact same way except for
+the one fix that matters — so you can compare them directly.
+</p>
+
+<div class="grid">
+  <div class="panel">
+    <h3 style="margin-top:0;color:var(--text);">SQL Injection Lab</h3>
+    <p style="color:var(--dim);font-size:13px;">A login form. One version builds the SQL query with
+    string concatenation; the other uses parameterized queries.</p>
+    <a class="nav-link" href="{{ url_for('login', mode='vulnerable') }}">→ vulnerable version</a><br>
+    <a class="nav-link" href="{{ url_for('login', mode='secure') }}">→ secure version</a>
+  </div>
+  <div class="panel">
+    <h3 style="margin-top:0;color:var(--text);">Stored XSS Lab</h3>
+    <p style="color:var(--dim);font-size:13px;">A guestbook. One version renders messages as raw HTML;
+    the other escapes output by default.</p>
+    <a class="nav-link" href="{{ url_for('guestbook', mode='vulnerable') }}">→ vulnerable version</a><br>
+    <a class="nav-link" href="{{ url_for('guestbook', mode='secure') }}">→ secure version</a>
+  </div>
+</div>
+
+<p style="color:var(--dim);font-size:12px;">See <code>WALKTHROUGH.md</code> in the repo for guided
+exploitation + fix explanations for both labs.</p>
+{% endblock %}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}Vulnerable Practice Lab{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a href="{{ url_for('home') }}" class="brand">$ vulnerable-practice-lab</a>
+  <span class="mode-badge mode-{{ mode|default('none') }}">{{ mode|default('')|upper }}</span>
+</header>
+<main class="wrap">
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer">for authorized local lab use only · not for production</footer>
+</body>
+</html>

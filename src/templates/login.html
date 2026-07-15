@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Login Lab :: {{ mode }}{% endblock %}
+{% block content %}
+<h1>&gt; login_lab.sh --mode={{ mode }}</h1>
+
+{% if mode == 'vulnerable' %}
+<div class="warning">
+  ⚠️ VULNERABLE MODE — this query is built with raw string concatenation and is
+  susceptible to SQL injection. Local lab use only; never deploy this pattern.
+</div>
+{% else %}
+<div class="ok-badge">
+  ✅ SECURE MODE — this query uses parameterized statements (<code>?</code> placeholders),
+  which neutralizes SQL injection regardless of input content.
+</div>
+{% endif %}
+
+<div class="panel">
+  <form method="POST">
+    <label>Username</label>
+    <input type="text" name="username" autocomplete="off" placeholder="try: admin">
+    <label>Password</label>
+    <input type="text" name="password" autocomplete="off" placeholder="try: ' OR '1'='1">
+    <button type="submit">Log in</button>
+  </form>
+</div>
+
+{% if attempted %}
+<div class="panel">
+  <strong>Result:</strong>
+  {% if result %}
+    <p style="color:var(--green);">✅ Logged in as <strong>{{ result.username }}</strong> (role: {{ result.role }})</p>
+  {% else %}
+    <p style="color:var(--red);">❌ Invalid credentials.</p>
+  {% endif %}
+  {% if query_used %}
+    <p style="color:var(--dim);font-size:12px;">Query executed:<br><code>{{ query_used }}</code></p>
+  {% endif %}
+</div>
+{% endif %}
+
+<a class="nav-link" href="{{ url_for('home') }}">← back to labs</a>
+{% endblock %}
